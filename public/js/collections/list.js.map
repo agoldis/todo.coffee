@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "list.js",
+  "sourceRoot": "",
+  "sources": [
+    "list.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,MAAA,CACE,CACE,UADF,EAEE,aAFF,CADF,EAKE,SAAC,QAAD,EAAW,SAAX,GAAA;WACE,QAAQ,CAAC,UAAU,CAAC,MAApB,CACE;AAAA,MAAA,KAAA,EAAO,SAAP;AAAA,MACA,GAAA,EAAK,uBADL;KADF,EADF;EAAA,CALF,CAAA,CAAA;AAAA"
+}

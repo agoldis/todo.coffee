@@ -1,10 +1,10 @@
 define(
   [
-    'backbone'
+    'mr'
     'text!templates/item.html'
   ]
-  (Backbone, itemTpl) ->
-    Backbone.View.extend
+  (Mr, itemTpl) ->
+    Mr.ItemView.extend
       tagName: 'li'
       template: _.template itemTpl
       events: 'click .toggle' : 'toggleCompleted'
@@ -14,8 +14,6 @@ define(
       toggleCompleted: ->
         @model.set('completed',!@model.get 'completed')
         @model.save {'completed': @model.get 'completed'}
-      render: ->
-        @$el.html( @template @model.attributes)
+      onRender: ->
         @$el.toggleClass('hidden', @model.get 'isHidden')
-        @
 )

@@ -1,11 +1,11 @@
 define(
   [
-    'backbone'
+    'mr'
     'underscore'
     'text!templates/status.html'
   ]
-  (Backbone, _, statusTpl) ->
-    Backbone.View.extend
+  (Mr, _, statusTpl) ->
+    Mr.ItemView.extend
       template: _.template statusTpl
       events:
         'click #show-incompleted': () ->
@@ -45,8 +45,7 @@ define(
         @$el.find('[data-count=completed]').html(status.completed)
         @$el.find('[data-count=incompleted]').html(status.incompleted)
         @$el.find('[data-count=overall]').html(status.overall)
-      render: () ->
-        @$el.html @template()
+      onRender: () ->
         @renderCounters()
         @$el.find 'button'
         .end()
@@ -54,5 +53,4 @@ define(
         .find("#show-#{@model.get 'show'}")
         .addClass 'active btn-info'
         @delegateEvents()
-        @
 )

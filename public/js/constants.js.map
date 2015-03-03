@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "constants.js",
+  "sourceRoot": "",
+  "sources": [
+    "constants.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,MAAA,CACE,EADF,EAEE,SAAA,GAAA;WAAM;AAAA,MACJ,SAAA,EAAW,EADP;MAAN;EAAA,CAFF,CAAA,CAAA;AAAA"
+}

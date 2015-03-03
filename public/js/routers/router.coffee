@@ -1,10 +1,10 @@
 define(
   [
-    'backbone'
+    'mr'
     'views/app'
   ]
-  (Backbone,AppView) ->
-    Backbone.Router.extend
+  (Mr,AppView) ->
+    Mr.AppRouter.extend
       routes:
         '' : 'start'
       initialize: () ->
