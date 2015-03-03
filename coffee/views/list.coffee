@@ -1,9 +1,9 @@
-define (
+define(
   [
     'backbone'
     'underscore'
     'views/item'
-  ],
+  ]
   (Backbone, _, ItemView) ->
     Backbone.View.extend
       tagName: 'ul'
@@ -11,12 +11,12 @@ define (
         @collection.on('add', @addItem, @)
         @collection.on('remove', @removeItem, @)
         @itemViews = []
-      addItem: () ->
+      addItem: (item) ->
         newView = new ItemView {model: item}
-        @itemView.push newView
+        @itemViews.push newView
         @$el.append newView.render().el
-      removeItem: () ->
-        i = _.indexOf(@itemViews, @)
+      removeItem: (item) ->
+        i = _.indexOf(@itemViews, item)
         @itemViews.splice(i,1)
       render: () ->
         @$el.html ''

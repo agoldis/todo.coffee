@@ -1,6 +1,6 @@
 define(
   []
   () -> {
-    ENTER_KEY: 14
+    ENTER_KEY: 13
   }
 )

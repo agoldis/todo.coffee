@@ -22,7 +22,7 @@
         }
       },
       addItem: function() {
-        this.newItem.set('title', this.$("item-title-input").val().trim());
+        this.newItem.set('title', $('#item-title-input').val().trim());
         if (this.newItem.isValid()) {
           this.collection.add(this.newItem);
           this.newItem.save();

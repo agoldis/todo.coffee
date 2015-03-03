@@ -2,7 +2,7 @@
 (function() {
   define([], function() {
     return {
-      ENTER_KEY: 14
+      ENTER_KEY: 13
     };
   });
 

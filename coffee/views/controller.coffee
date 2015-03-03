@@ -1,13 +1,13 @@
 define(
   [
-    'backbone',
-    'underscore',
-    'models/item',
-    'views/status',
-    'constants',
+    'backbone'
+    'underscore'
+    'models/item'
+    'views/status'
+    'constants'
     'text!templates/control.html'
   ]
-  (Backbone,_,ItemModel,StatusView,constants,controlTpl) ->
+  (Backbone, _, ItemModel, StatusView, constants, controlTpl) ->
     Backbone.View.extend
       template: _.template controlTpl
       events:
@@ -24,7 +24,7 @@ define(
       addItem: () ->
         @newItem.set(
           'title'
-          @$("item-title-input").val().trim()
+          $('#item-title-input').val().trim()
         )
         if @newItem.isValid()
           @collection.add @newItem
