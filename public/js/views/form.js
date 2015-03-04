@@ -10,8 +10,8 @@
         clear: '#clear-completed',
         completeAll: '#complete-all'
       },
-      initialize: function() {
-        return this.listenTo(this.model, 'invalid', this.onInvalid);
+      modelEvents: {
+        'invalid': 'onInvalid'
       },
       events: {
         'click @ui.add': 'addItem',

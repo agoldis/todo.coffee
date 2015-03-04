@@ -15,8 +15,8 @@ define(
         add: '#item-add'
         clear: '#clear-completed'
         completeAll: '#complete-all'
-      initialize: ->
-        @listenTo(@model,'invalid',@onInvalid)
+      modelEvents:
+        'invalid': 'onInvalid'
       events:
         'click @ui.add': 'addItem'
         'click @ui.clear': 'removeCompleted'

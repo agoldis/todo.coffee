@@ -7,7 +7,7 @@
         form: '#app-form',
         status: '#app-status'
       },
-      onShow: function() {
+      onRender: function() {
         this.showChildView('form', new FormView({
           collection: this.collection,
           model: new ItemModel

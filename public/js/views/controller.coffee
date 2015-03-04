@@ -13,7 +13,7 @@ define(
       regions:
         form: '#app-form'
         status: '#app-status'
-      onShow: () ->
+      onRender: () ->
         @showChildView('form', new FormView(
           collection: @collection
           model: new ItemModel

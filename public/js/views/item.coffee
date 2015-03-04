@@ -7,10 +7,12 @@ define(
     Mr.ItemView.extend
       tagName: 'li'
       template: _.template itemTpl
-      events: 'click .toggle' : 'toggleCompleted'
-      initialize:  ->
-        @listenTo(@model,'change', @render)
-        @listenTo(@model, 'destroy', @remove)
+      ui:
+        toggle: '.toggle'
+      events: 'click @ui.toggle' : 'toggleCompleted'
+      modelEvents:
+        'change': 'render'
+        'destroy': 'remove'
       toggleCompleted: ->
         @model.set('completed',!@model.get 'completed')
         @model.save {'completed': @model.get 'completed'}

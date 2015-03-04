@@ -4,12 +4,15 @@
     return Mr.ItemView.extend({
       tagName: 'li',
       template: _.template(itemTpl),
-      events: {
-        'click .toggle': 'toggleCompleted'
+      ui: {
+        toggle: '.toggle'
       },
-      initialize: function() {
-        this.listenTo(this.model, 'change', this.render);
-        return this.listenTo(this.model, 'destroy', this.remove);
+      events: {
+        'click @ui.toggle': 'toggleCompleted'
+      },
+      modelEvents: {
+        'change': 'render',
+        'destroy': 'remove'
       },
       toggleCompleted: function() {
         this.model.set('completed', !this.model.get('completed'));

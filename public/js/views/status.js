@@ -3,26 +3,48 @@
   define(['mr', 'underscore', 'text!templates/status.html'], function(Mr, _, statusTpl) {
     return Mr.ItemView.extend({
       template: _.template(statusTpl),
+      ui: {
+        showIncompleted: '#show-incompleted',
+        showCompleted: '#show-completed',
+        showAll: '#show-all'
+      },
       events: {
-        'click #show-incompleted': function() {
-          return this.model.set('show', 'incompleted');
-        },
-        'click #show-completed': function() {
-          return this.model.set("show", "completed");
-        },
-        'click #show-all': function() {
-          return this.model.set("show", "all");
-        }
+        'click @ui.showIncompleted': 'onShowIncompleted',
+        'click @ui.showCompleted': 'onShowCompleted',
+        'click @ui.showAll': 'onShowAll'
+      },
+      onShowIncompleted: function() {
+        this.model.set('show', false);
+        return this.model.set('highlight', this.ui.showIncompleted.selector);
+      },
+      onShowCompleted: function() {
+        this.model.set("show", true);
+        return this.model.set('highlight', this.ui.showCompleted.selector);
+      },
+      onShowAll: function() {
+        this.model.set("show", null);
+        return this.model.set('highlight', this.ui.showAll.selector);
       },
       initialize: function() {
         this.model = new Backbone.Model();
-        this.model.set("show", "all");
-        this.listenTo(this.model, "change", this.filterCollection);
-        this.listenTo(this.collection, 'add', this.renderCounters);
-        this.listenTo(this.collection, 'remove', this.renderCounters);
-        return this.listenTo(this.collection, 'change:completed', this.filterCollection);
+        return this.model.set({
+          'show': null,
+          'highlight': this.ui.showAll
+        });
       },
-      getStatus: function() {
+      modelEvents: function() {
+        return {
+          'change': this.filterCollection
+        };
+      },
+      collectionEvents: function() {
+        return {
+          'add': 'render',
+          'remove': 'render',
+          'change:completed': 'filterCollection'
+        };
+      },
+      serializeData: function() {
         var completed, incompleted, overall;
         overall = this.collection.length;
         completed = this.collection.where({
@@ -39,26 +61,16 @@
         var word;
         word = this.model.get('show');
         this.collection.each(function(item) {
-          if (word === 'all') {
+          if (word === null) {
             return item.set('isHidden', false);
-          } else if (word === 'completed') {
-            return item.set('isHidden', !item.get('completed'));
           } else {
-            return item.set('isHidden', item.get('completed'));
+            return item.set('isHidden', item.get('completed') !== word);
           }
         });
         return this.render();
       },
-      renderCounters: function() {
-        var status;
-        status = this.getStatus();
-        this.$el.find('[data-count=completed]').html(status.completed);
-        this.$el.find('[data-count=incompleted]').html(status.incompleted);
-        return this.$el.find('[data-count=overall]').html(status.overall);
-      },
       onRender: function() {
-        this.renderCounters();
-        this.$el.find('button').end().removeClass('active btn-info').find("#show-" + (this.model.get('show'))).addClass('active btn-info');
+        $(this.model.get('highlight')).addClass('btn-info active');
         return this.delegateEvents();
       }
     });

@@ -7,9 +7,12 @@ define(
     Mr.AppRouter.extend
       routes:
         '' : 'start'
-      initialize: () ->
+        '/completed' : 'showCompleted'
+      initialize: ->
         Backbone.history.start {pushState: true}
-      start: () ->
+      start: ->
         app = new AppView {el: '#app'}
         app.render()
+      showCompleted: ->
+        console.log('showing completed')
 )

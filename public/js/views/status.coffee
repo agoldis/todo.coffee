@@ -7,50 +7,50 @@ define(
   (Mr, _, statusTpl) ->
     Mr.ItemView.extend
       template: _.template statusTpl
+      ui:
+        showIncompleted: '#show-incompleted'
+        showCompleted: '#show-completed'
+        showAll: '#show-all'
       events:
-        'click #show-incompleted': () ->
-          @model.set('show','incompleted')
-        'click #show-completed': () ->
-          @model.set("show", "completed")
-        'click #show-all': () ->
-          @model.set("show", "all")
+        'click @ui.showIncompleted': 'onShowIncompleted'
+        'click @ui.showCompleted': 'onShowCompleted'
+        'click @ui.showAll': 'onShowAll'
+      onShowIncompleted: ->
+        @model.set('show', false)
+        @model.set('highlight', @ui.showIncompleted.selector)
+      onShowCompleted: ->
+        @model.set("show", true)
+        @model.set('highlight', @ui.showCompleted.selector)
+      onShowAll: ->
+        @model.set("show", null)
+        @model.set('highlight', @ui.showAll.selector)
       initialize: () ->
         @model = new Backbone.Model()
-        @model.set("show", "all")
-        @listenTo(@model, "change", @filterCollection)
-        @listenTo(@collection, 'add', @renderCounters)
-        @listenTo(@collection, 'remove', @renderCounters)
-        @listenTo(@collection, 'change:completed', @filterCollection)
-      getStatus: () ->
+        @model.set(
+          'show': null
+          'highlight': @ui.showAll
+        )
+      modelEvents: ->
+        'change': @filterCollection
+      collectionEvents: ->
+        'add':  'render'
+        'remove': 'render'
+        'change:completed': 'filterCollection'
+      serializeData: () ->
         overall = @collection.length
         completed = @collection.where({completed: true}).length
         incompleted = overall - completed
         {
-        overall: overall
-        completed: completed
-        incompleted: incompleted
+          overall: overall
+          completed: completed
+          incompleted: incompleted
         }
       filterCollection: () ->
         word = @model.get 'show'
         @collection.each  (item) ->
-          if word is 'all'
-            item.set('isHidden',false)
-          else if word is 'completed'
-            item.set('isHidden', not item.get 'completed')
-          else
-            item.set('isHidden', item.get 'completed')
+          if word is null then item.set('isHidden',false) else item.set('isHidden', (item.get('completed') isnt word))
         @render()
-      renderCounters: () ->
-        status = @getStatus()
-        @$el.find('[data-count=completed]').html(status.completed)
-        @$el.find('[data-count=incompleted]').html(status.incompleted)
-        @$el.find('[data-count=overall]').html(status.overall)
       onRender: () ->
-        @renderCounters()
-        @$el.find 'button'
-        .end()
-        .removeClass 'active btn-info'
-        .find("#show-#{@model.get 'show'}")
-        .addClass 'active btn-info'
+        $(@model.get('highlight')).addClass('btn-info active')
         @delegateEvents()
 )

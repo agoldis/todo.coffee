@@ -3,7 +3,8 @@
   define(['mr', 'views/app'], function(Mr, AppView) {
     return Mr.AppRouter.extend({
       routes: {
-        '': 'start'
+        '': 'start',
+        '/completed': 'showCompleted'
       },
       initialize: function() {
         return Backbone.history.start({
@@ -16,6 +17,9 @@
           el: '#app'
         });
         return app.render();
+      },
+      showCompleted: function() {
+        return console.log('showing completed');
       }
     });
   });
